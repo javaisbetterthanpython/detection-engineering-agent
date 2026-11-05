@@ -1,0 +1,24 @@
+/runs/
+/inventory.json
+.venv/
+__pycache__/
+dist/
+.DS_Store
+tests/fixtures/splunk/ingested.jsonl
+tests/fixtures/splunk/published.conf
+.env*
+!.env.example
+
+# user output and local working files
+ideas/
+tasks/
+# GIF intermediates (docs/assets/Makefile)
+docs/assets/*.raw.gif
+.pytest_cache/
+.ruff_cache/
+# never any ssh material
+.ssh/
+*.pem
+id_rsa*
+id_ed25519*
+known_hosts*

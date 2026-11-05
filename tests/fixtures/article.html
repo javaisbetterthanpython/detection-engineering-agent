@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>From Invoice Macro to Scheduled Task: An Encoded PowerShell Intrusion</title>
+</head>
+<body>
+<article>
+<h1>From Invoice Macro to Scheduled Task: An Encoded PowerShell Intrusion</h1>
+<p class="meta">Published 2026-10-30 by the Example Incident Response Team</p>
+
+<h2>Summary</h2>
+<p>In this intrusion the threat actor gained initial access through a phishing email carrying a Word
+document named <code>Invoice_Q3_2026.docm</code>. When the recipient enabled content, a VBA macro
+launched <code>powershell.exe</code> with an encoded command that downloaded a second-stage script from
+an attacker-controlled host. The second stage established persistence with a scheduled task named
+<code>OneDriveUpdater</code>, enumerated the domain with built-in Windows utilities, and attempted to
+move laterally over SMB. The intrusion was contained within six hours of the first alert.</p>
+
+<h2>Initial access</h2>
+<p>The phishing email was sent from a compromised partner mailbox and referenced an overdue invoice.
+The attachment was a macro-enabled Word document. Once macros were enabled, the document's
+<code>AutoOpen</code> routine used <code>WScript.Shell</code> to start PowerShell. The parent process
+was <code>WINWORD.EXE</code> and the child was <code>powershell.exe</code>; the command line used the
+<code>-EncodedCommand</code> switch (the short form <code>-enc</code> was observed on a second host)
+followed by a base64 blob, together with <code>-NoProfile</code>, <code>-WindowStyle Hidden</code> and
+<code>-ExecutionPolicy Bypass</code>. The decoded command was a one-liner that called
+<code>Invoke-WebRequest</code> against <code>hxxp://update-cdn[.]example[.]net/st2.ps1</code> and
+piped the response into <code>Invoke-Expression</code>.</p>
+
+<p>Sysmon Event ID 1 recorded the process creation on the first workstation:</p>
+<pre>&lt;Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'&gt;&lt;System&gt;&lt;Provider Name='Microsoft-Windows-Sysmon'/&gt;&lt;EventID&gt;1&lt;/EventID&gt;&lt;Computer&gt;WS01.corp.local&lt;/Computer&gt;&lt;/System&gt;&lt;EventData&gt;&lt;Data Name='Image'&gt;C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe&lt;/Data&gt;&lt;Data Name='CommandLine'&gt;powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -EncodedCommand SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkA&lt;/Data&gt;&lt;Data Name='User'&gt;CORP\jdoe&lt;/Data&gt;&lt;Data Name='ParentImage'&gt;C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE&lt;/Data&gt;&lt;/EventData&gt;&lt;/Event&gt;</pre>
+
+<p>The same activity was visible in Windows Security event 4688 on hosts with command-line auditing
+enabled: <code>New Process Name</code> was <code>powershell.exe</code>, <code>Creator Process Name</code>
+was <code>WINWORD.EXE</code> and <code>Process Command Line</code> contained the encoded payload.</p>
+
+<h2>Persistence</h2>
+<p>About four minutes after the first PowerShell execution, the second-stage script created a scheduled
+task to survive reboots. PowerShell spawned <code>schtasks.exe</code> with the arguments
+<code>/create /sc hourly /tn OneDriveUpdater /tr "powershell.exe -w hidden -File
+C:\Users\jdoe\AppData\Roaming\OneDrive\update.ps1" /f</code>. The task name imitated a legitimate
+OneDrive component, and the script path lived under the user's roaming profile. Sysmon Event ID 1 again
+captured the <code>schtasks.exe</code> process creation with <code>powershell.exe</code> as the parent,
+and Windows Security logged event 4698 (a scheduled task was created) with the full task XML.</p>
+
+<h2>Discovery</h2>
+<p>Within the first hour the actor ran a burst of discovery commands from the same PowerShell session:
+<code>whoami /all</code>, <code>nltest /dclist:corp</code>, <code>net group "Domain Admins" /domain</code>,
+<code>net view /domain</code> and <code>ipconfig /all</code>. Each command ran as a child of
+<code>powershell.exe</code> via <code>cmd.exe /c</code>, producing a tight cluster of process creation
+events in under two minutes. This pattern of five or more distinct discovery binaries from one parent
+in a short window is a reliable hunting lead even when the individual commands are common.</p>
+
+<h2>Lateral movement</h2>
+<p>The actor then used the compromised user's credentials to copy the second-stage script to the
+<code>ADMIN$</code> share of a file server and start it with a remote service. Windows Security
+event 5145 on the file server recorded access to <code>\\FS01\ADMIN$\update.ps1</code> from the
+first workstation, and event 7045 recorded a new service with a PowerShell command line as its image
+path. Proxy logs on the egress firewall showed the download of <code>st2.ps1</code> as a GET request
+with a PowerShell user agent (<code>Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1</code>)
+to a domain registered nine days earlier.</p>
+
+<h2>Detection opportunities</h2>
+<ul>
+<li>Office applications (WINWORD.EXE, EXCEL.EXE, OUTLOOK.EXE, POWERPNT.EXE) spawning powershell.exe,
+pwsh.exe, cmd.exe, wscript.exe or mshta.exe.</li>
+<li>powershell.exe command lines containing <code>-EncodedCommand</code>, <code>-enc</code> or
+<code>-e</code> followed by a long base64 string, especially with <code>-NoProfile</code> and
+<code>-WindowStyle Hidden</code>.</li>
+<li>schtasks.exe spawned by powershell.exe with <code>/create</code> and a task action under
+<code>AppData</code>, <code>ProgramData</code> or <code>Temp</code>.</li>
+<li>Five or more distinct discovery utilities spawned by one parent process within ten minutes.</li>
+<li>HTTP requests whose user agent contains <code>WindowsPowerShell</code> to newly registered domains.</li>
+</ul>
+
+<h2>Indicators</h2>
+<table>
+<tr><th>Type</th><th>Value</th></tr>
+<tr><td>File name</td><td>Invoice_Q3_2026.docm</td></tr>
+<tr><td>Domain</td><td>update-cdn[.]example[.]net</td></tr>
+<tr><td>Task name</td><td>OneDriveUpdater</td></tr>
+<tr><td>Script path</td><td>C:\Users\&lt;user&gt;\AppData\Roaming\OneDrive\update.ps1</td></tr>
+</table>
+
+<h2>MITRE ATT&amp;CK</h2>
+<ul>
+<li>T1566.001 Phishing: Spearphishing Attachment</li>
+<li>T1204.002 User Execution: Malicious File</li>
+<li>T1059.001 Command and Scripting Interpreter: PowerShell</li>
+<li>T1027.010 Obfuscated Files or Information: Command Obfuscation</li>
+<li>T1053.005 Scheduled Task/Job: Scheduled Task</li>
+<li>T1087.002 Account Discovery: Domain Account</li>
+<li>T1021.002 Remote Services: SMB/Windows Admin Shares</li>
+</ul>
+</article>
+</body>
+</html>

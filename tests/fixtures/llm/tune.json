@@ -1,0 +1,8 @@
+[
+  {
+    "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 (ParentImage=\"*\\\\WINWORD.EXE\" OR ParentImage=\"*\\\\EXCEL.EXE\" OR ParentImage=\"*\\\\OUTLOOK.EXE\") Image=\"*\\\\powershell.exe\" | stats count min(_time) as firstTime max(_time) as lastTime by Computer User ParentImage Image CommandLine"
+  },
+  {
+    "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 (ParentImage=\"*\\\\WINWORD.EXE\" OR ParentImage=\"*\\\\EXCEL.EXE\" OR ParentImage=\"*\\\\OUTLOOK.EXE\") Image=\"*\\\\powershell.exe\" (CommandLine=\"* -enc*\" OR CommandLine=\"*-EncodedCommand*\") | stats count min(_time) as firstTime max(_time) as lastTime by Computer User ParentImage Image CommandLine"
+  }
+]

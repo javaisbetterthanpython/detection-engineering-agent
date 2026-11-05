@@ -1,0 +1,5 @@
+[
+  {
+    "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 (ParentImage=\"*\\\\WINWORD.EXE\" OR ParentImage=\"*\\\\EXCEL.EXE\" OR ParentImage=\"*\\\\OUTLOOK.EXE\") (Image=\"*\\\\powershell.exe\" OR Image=\"*\\\\pwsh.exe\" OR Image=\"*\\\\powershell_ise.exe\") | eval cmd=lower(CommandLine) | where match(cmd, \"\\s-e[nc]{0,2}\\s\") OR match(cmd, \"\\s-encodedcommand\\s\") | stats count min(_time) as firstTime max(_time) as lastTime by Computer User ParentImage Image CommandLine"
+  }
+]

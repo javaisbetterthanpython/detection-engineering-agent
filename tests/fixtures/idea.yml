@@ -1,0 +1,24 @@
+id: 3f0e6b5a-1d0c-4c6e-9d3e-5b2d6a8c1f11
+title: Office app spawns encoded PowerShell
+source_url: https://thedfirreport.com/2026/10/30/example/
+summary: >-
+  A malicious Word macro launches powershell.exe with -EncodedCommand to fetch a second stage.
+attack_steps:
+  - "winword.exe or excel.exe or outlook.exe spawns powershell.exe"
+  - "powershell.exe command line contains -enc or -EncodedCommand followed by base64"
+indicators: ["-EncodedCommand", "-enc ", "powershell.exe"]
+mitre_attack_id: [T1059.001, T1566.001]
+type: TTP
+severity: high
+log_sources:
+  - product: Windows Sysmon
+    keywords: [sysmon]
+    fields: [EventCode, Image, ParentImage, CommandLine]
+  - product: Windows Security
+    keywords: [wineventlog, security, "4688"]
+    fields: [EventCode, New_Process_Name, Creator_Process_Name, Process_Command_Line]
+sourcetypes: []
+max_hits_per_day: null
+false_positive_notes: Admin scripts launched from Office automation in finance.
+attack_examples: []
+attack_data_url: null

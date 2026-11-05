@@ -1,0 +1,5 @@
+[
+  {
+    "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 Image=\"*\\\\powershell.exe\" | stats count min(_time) as firstTime max(_time) as lastTime by Computer User ParentImage Image CommandLine"
+  }
+]

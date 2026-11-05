@@ -1,0 +1,134 @@
+[
+  {
+    "count": 412,
+    "scan_count": 912000,
+    "rows": [
+      {
+        "_time": "2026-11-03T10:00:00",
+        "Computer": "WS01.corp.local",
+        "User": "CORP\\jdoe",
+        "ParentImage": "C:\\Windows\\explorer.exe",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -File login.ps1",
+        "count": "120"
+      },
+      {
+        "_time": "2026-11-03T10:20:00",
+        "Computer": "WS02.corp.local",
+        "User": "CORP\\asmith",
+        "ParentImage": "C:\\Windows\\explorer.exe",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -ExecutionPolicy Bypass -File C:\\Scripts\\inventory.ps1",
+        "count": "95"
+      },
+      {
+        "_time": "2026-11-03T10:40:00",
+        "Computer": "DC01.corp.local",
+        "User": "NT AUTHORITY\\SYSTEM",
+        "ParentImage": "C:\\Windows\\System32\\services.exe",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -NoProfile -Command Get-Service",
+        "count": "30"
+      },
+      {
+        "_time": "2026-11-03T11:00:00",
+        "Computer": "WS03.corp.local",
+        "User": "CORP\\jdoe",
+        "ParentImage": "C:\\Windows\\explorer.exe",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -NoLogo",
+        "count": "88"
+      },
+      {
+        "_time": "2026-11-03T11:20:00",
+        "Computer": "WS04.corp.local",
+        "User": "CORP\\bwayne",
+        "ParentImage": "C:\\Windows\\explorer.exe",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -File vpn.ps1",
+        "count": "77"
+      },
+      {
+        "_time": "2026-11-03T11:40:00",
+        "Computer": "WS01.corp.local",
+        "User": "CORP\\jdoe",
+        "ParentImage": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA",
+        "count": "2"
+      }
+    ]
+  },
+  {
+    "count": 60,
+    "scan_count": 912000,
+    "rows": [
+      {
+        "_time": "2026-11-03T10:00:00",
+        "Computer": "WS01.corp.local",
+        "User": "CORP\\jdoe",
+        "ParentImage": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -File \"C:\\Finance\\macros\\export.ps1\"",
+        "count": "40"
+      },
+      {
+        "_time": "2026-11-03T10:20:00",
+        "Computer": "WS02.corp.local",
+        "User": "CORP\\asmith",
+        "ParentImage": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -NoProfile -File refresh.ps1",
+        "count": "18"
+      },
+      {
+        "_time": "2026-11-03T11:40:00",
+        "Computer": "WS01.corp.local",
+        "User": "CORP\\jdoe",
+        "ParentImage": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA",
+        "count": "2"
+      }
+    ]
+  },
+  {
+    "count": 2,
+    "scan_count": 912000,
+    "rows": [
+      {
+        "_time": "2026-11-03T11:40:00",
+        "Computer": "WS01.corp.local",
+        "User": "CORP\\jdoe",
+        "ParentImage": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA",
+        "count": "1"
+      },
+      {
+        "_time": "2026-11-02T15:05:00",
+        "Computer": "WS04.corp.local",
+        "User": "CORP\\bwayne",
+        "ParentImage": "C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -EncodedCommand SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA",
+        "count": "1"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "scan_count": 912000,
+    "rows": [
+      {
+        "_time": "2026-11-03T11:40:00",
+        "Computer": "WS01.corp.local",
+        "User": "CORP\\jdoe",
+        "ParentImage": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+        "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "powershell.exe -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA",
+        "count": "1"
+      }
+    ]
+  }
+]

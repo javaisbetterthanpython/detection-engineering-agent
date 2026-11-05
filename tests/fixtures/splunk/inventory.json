@@ -1,0 +1,141 @@
+{
+  "fetched_at": "2026-11-04T10:00:00Z",
+  "window": "-7d",
+  "macros": [
+    "sysmon",
+    "security_content_ctime"
+  ],
+  "indexes": [
+    {
+      "name": "wineventlog",
+      "events": 1834400,
+      "sourcetypes": [
+        {
+          "name": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "count": 912000,
+          "fields": {
+            "EventCode": [
+              "1",
+              "3",
+              "11"
+            ],
+            "Image": [
+              "C:\\Windows\\System32\\svchost.exe",
+              "C:\\Windows\\explorer.exe",
+              "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
+            ],
+            "ParentImage": [
+              "C:\\Windows\\System32\\services.exe",
+              "C:\\Windows\\explorer.exe"
+            ],
+            "CommandLine": [
+              "C:\\Windows\\system32\\svchost.exe -k netsvcs",
+              "\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n"
+            ],
+            "ParentCommandLine": [
+              "C:\\Windows\\system32\\services.exe",
+              "C:\\Windows\\Explorer.EXE"
+            ],
+            "User": [
+              "NT AUTHORITY\\SYSTEM",
+              "CORP\\jdoe"
+            ],
+            "Computer": [
+              "WS01.corp.local",
+              "WS02.corp.local"
+            ],
+            "IntegrityLevel": [
+              "Medium",
+              "High",
+              "System"
+            ]
+          },
+          "sample": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\svchost.exe</Data><Data Name='CommandLine'>C:\\Windows\\system32\\svchost.exe -k netsvcs</Data><Data Name='User'>NT AUTHORITY\\SYSTEM</Data><Data Name='ParentImage'>C:\\Windows\\System32\\services.exe</Data><Data Name='ParentCommandLine'>C:\\Windows\\system32\\services.exe</Data></EventData></Event>"
+        },
+        {
+          "name": "WinEventLog:Security",
+          "count": 640000,
+          "fields": {
+            "EventCode": [
+              "4688",
+              "4624",
+              "4634"
+            ],
+            "New_Process_Name": [
+              "C:\\Windows\\System32\\cmd.exe",
+              "C:\\Windows\\System32\\conhost.exe",
+              "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+            ],
+            "Creator_Process_Name": [
+              "C:\\Windows\\explorer.exe",
+              "C:\\Windows\\System32\\services.exe"
+            ],
+            "Process_Command_Line": [
+              "cmd.exe /c whoami",
+              "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+            ],
+            "Account_Name": [
+              "jdoe",
+              "SYSTEM",
+              "svc_backup"
+            ],
+            "ComputerName": [
+              "WS02.corp.local",
+              "DC01.corp.local"
+            ]
+          },
+          "sample": "11/03/2026 09:12:44 AM\nLogName=Security\nEventCode=4688\nEventType=0\nComputerName=WS02.corp.local\nTaskCategory=Process Creation\nMessage=A new process has been created.\n\nCreator Subject:\n\tAccount Name:\t\tjdoe\n\tAccount Domain:\t\tCORP\n\nProcess Information:\n\tNew Process Name:\tC:\\Windows\\System32\\cmd.exe\n\tCreator Process Name:\tC:\\Windows\\explorer.exe\n\tProcess Command Line:\tcmd.exe /c whoami"
+        }
+      ]
+    },
+    {
+      "name": "proxy",
+      "events": 2210000,
+      "sourcetypes": [
+        {
+          "name": "squid:access",
+          "count": 2210000,
+          "fields": {
+            "src_ip": [
+              "10.1.2.3",
+              "10.1.2.7",
+              "10.1.5.20"
+            ],
+            "dest_ip": [
+              "93.184.216.34",
+              "142.250.72.14"
+            ],
+            "url": [
+              "http://updates.example.net/manifest.json",
+              "https://www.example.com/"
+            ],
+            "http_method": [
+              "GET",
+              "POST",
+              "CONNECT"
+            ],
+            "status": [
+              "200",
+              "304",
+              "403"
+            ],
+            "bytes": [
+              "4821",
+              "512",
+              "0"
+            ],
+            "user": [
+              "jdoe",
+              "asmith"
+            ],
+            "http_user_agent": [
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+              "Microsoft-CryptoAPI/10.0"
+            ]
+          },
+          "sample": "1762250000.123    152 10.1.2.3 TCP_MISS/200 4821 GET http://updates.example.net/manifest.json jdoe HIER_DIRECT/93.184.216.34 application/json"
+        }
+      ]
+    }
+  ]
+}

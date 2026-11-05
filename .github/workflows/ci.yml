@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv python install 3.13
+      - run: uv sync --group dev
+      - run: uv run pytest -q
+
+  publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      SPLUNK_HOST: ${{ secrets.SPLUNK_HOST }}
+      SPLUNK_TOKEN: ${{ secrets.SPLUNK_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv python install 3.13
+      - run: uv sync --group dev
+      # runs only when the SPLUNK_TOKEN secret is set and detections/*.yml exists (it does: run 5's rendering is committed); set repository variable DEA_ES=1 for Enterprise Security
+      - if: env.SPLUNK_TOKEN != '' && hashFiles('detections/*.yml') != ''
+        run: uv run dea publish detections/ --splunk real ${{ vars.DEA_ES == '1' && '--es' || '' }}

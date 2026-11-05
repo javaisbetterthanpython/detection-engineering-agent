@@ -1,0 +1,482 @@
+{
+  "state": "failed_review",
+  "prior_state": null,
+  "error": null,
+  "idea_path": "tests/fixtures/idea.yml",
+  "splunk_kind": "mock",
+  "run_id": "f65edcc4",
+  "config": {
+    "max_tunes": 3,
+    "max_remakes": 1,
+    "max_reviews": 2,
+    "max_cost_usd": 5.0,
+    "window": "-7d",
+    "attack_index": "dea_attack",
+    "out_dir": "detections",
+    "max_scan_count": 50000000,
+    "models": {
+      "author": "claude-opus-4-8",
+      "review": "claude-opus-4-8",
+      "refine": "claude-opus-4-8"
+    }
+  },
+  "tunes": 3,
+  "remakes": 0,
+  "reviews": 2,
+  "cost_usd": 1.4776224000000002,
+  "status_cap": "experimental",
+  "sources": [
+    {
+      "index": "wineventlog",
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "score": 24,
+      "data_source": "Sysmon EventID 1",
+      "asset_type": "Endpoint",
+      "security_domain": "endpoint"
+    },
+    {
+      "index": "wineventlog",
+      "sourcetype": "WinEventLog:Security",
+      "score": 24,
+      "data_source": "Windows Event Log Security 4688",
+      "asset_type": "Endpoint",
+      "security_domain": "endpoint"
+    }
+  ],
+  "examples": [
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>powershell.exe -ec SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAKQA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data></EventData></Event>",
+      "host": "dea-f65edcc4-0"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS04.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>powershell.exe -enc:SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAKQA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE\" /automation</Data></EventData></Event>",
+      "host": "dea-f65edcc4-1"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS04.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Program Files\\PowerShell\\7\\pwsh.exe</Data><Data Name='CommandLine'>pwsh.exe -EncodedCommand SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAKQA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE\"</Data></EventData></Event>",
+      "host": "dea-f65edcc4-2"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -encoded SQBFAFgAIABuAGUAdAA9AHgA</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data></EventData></Event>",
+      "host": "dea-f65edcc4-3"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -enc SQBFAFgAIABuAGUAdAA9AHgA</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE\" /n</Data></EventData></Event>",
+      "host": "dea-f65edcc4-4"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>powershell.exe -enc SQBFAFgAIABuAGUAdAA9AHgA</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Windows\\System32\\cmd.exe</Data><Data Name='ParentCommandLine'>\"C:\\Windows\\System32\\cmd.exe\" /c powershell.exe -enc SQBFAFgAIABuAGUAdAA9AHgA</Data></EventData></Event>",
+      "host": "dea-f65edcc4-5"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Users\\Public\\svc.exe</Data><Data Name='CommandLine'>\"C:\\Users\\Public\\svc.exe\" -enc SQBFAFgAIABuAGUAdAA9AHgA</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data></EventData></Event>",
+      "host": "dea-f65edcc4-6"
+    }
+  ],
+  "drafts": [
+    {
+      "n": 1,
+      "origin": "author",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 Image=\"*\\\\powershell.exe\" (CommandLine=\"*-enc*\" OR CommandLine=\"*-EncodedCommand*\")\n| where match(ParentImage, \"(?i)\\\\\\\\(winword|excel|outlook)\\.exe$\")\n| where match(Image, \"(?i)\\\\\\\\powershell\\.exe$\")\n| where match(CommandLine, \"(?i)\\s-e(nc|ncodedcommand)\\s+[A-Za-z0-9+/=]{12,}\")\n| stats count min(_time) as firstTime max(_time) as lastTime values(Image) as Image values(CommandLine) as CommandLine by Computer, User, ParentImage",
+      "group_fields": [
+        "Computer",
+        "User",
+        "ParentImage"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EventCode",
+        "Image",
+        "ParentImage",
+        "User"
+      ]
+    },
+    {
+      "n": 2,
+      "origin": "tune",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 Image=\"*\\\\powershell.exe\"\n| where match(ParentImage, \"(?i)\\\\\\\\(winword|excel|outlook)\\.exe$\")\n| where match(CommandLine, \"(?i)\\s-e(nc|ncodedcommand)?\\s+[A-Za-z0-9+/=]{12,}\")\n| stats count min(_time) as firstTime max(_time) as lastTime values(CommandLine) as CommandLine by Computer, ParentImage",
+      "group_fields": [
+        "Computer",
+        "ParentImage"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EventCode",
+        "Image",
+        "ParentImage"
+      ]
+    },
+    {
+      "n": 3,
+      "origin": "tune",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 Image=\"*\\\\powershell.exe\"\n| where match(ParentImage, \"(?i)\\\\\\\\(winword|excel|outlook)\\.exe$\")\n| where match(CommandLine, \"(?i)\\s-e(nc|ncodedcommand)?\\s+[A-Za-z0-9+/=]{12,}\")\n| where NOT (match(ParentCommandLine, \"(?i)^\\\"?C:\\\\\\\\Program Files\\\\\\\\Microsoft Office\\\\\\\\root\\\\\\\\Office16\\\\\\\\(WINWORD|EXCEL)\\.EXE\\\"?(\\s+/automation)?\\s*$\") AND match(CommandLine, \"(?i)^\\\"?C:\\\\\\\\Windows\\\\\\\\System32\\\\\\\\WindowsPowerShell\\\\\\\\v1\\.0\\\\\\\\powershell\\.exe\\\"?\\s+-NoProfile\\s+-ExecutionPolicy\\s+Bypass\\s+-File\\s+\\\"?C:\\\\\\\\Scripts\\\\\\\\Finance\\\\\\\\[^ ]+\\.ps1\\\"?\\s*$\"))\n| stats count min(_time) as firstTime max(_time) as lastTime values(CommandLine) as CommandLine by Computer, ParentImage",
+      "group_fields": [
+        "Computer",
+        "ParentImage"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EventCode",
+        "Image",
+        "ParentCommandLine",
+        "ParentImage"
+      ]
+    },
+    {
+      "n": 4,
+      "origin": "refine",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 | where match(Image, \"(?i)\\\\\\\\(powershell|pwsh)\\.exe$\") | where match(ParentImage, \"(?i)\\\\\\\\(winword|excel|outlook)\\.exe$\") | where match(CommandLine, \"(?i)[\\s](/|-{1,2})e(c|n(c(oded?command)?)?)?[\\s:]+[A-Za-z0-9+/=]{12,}\") | stats count min(_time) as firstTime max(_time) as lastTime values(CommandLine) as CommandLine by Computer, ParentImage",
+      "group_fields": [
+        "Computer",
+        "ParentImage"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EventCode",
+        "Image",
+        "ParentImage"
+      ]
+    },
+    {
+      "n": 5,
+      "origin": "refine",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 | where match(CommandLine, \"(?i)[\\s\\\"](-{1,2}|/)e(n(c(o(d(e(d(c(o(m(m(a(n(d)?)?)?)?)?)?)?)?)?)?)?)?)?[\\s:]+[A-Za-z0-9+/=]{12,}\") | eval officeParent=if(match(ParentImage, \"(?i)\\\\\\\\(winword|excel|powerpnt|outlook|msaccess|mspub|visio|onenote)\\.exe$\"),1,0) | eval loaderParent=if(match(ParentImage, \"(?i)\\\\\\\\(cmd|wscript|cscript|mshta|powershell|pwsh)\\.exe$\"),1,0) | eval psImage=if(match(Image, \"(?i)\\\\\\\\(powershell|pwsh)\\.exe$\"),1,0) | where officeParent=1 OR (loaderParent=1 AND psImage=1) | stats count min(_time) as firstTime max(_time) as lastTime values(CommandLine) as CommandLine values(Image) as Image values(ParentImage) as ParentImage by Computer",
+      "group_fields": [
+        "Computer"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EventCode",
+        "Image",
+        "ParentImage",
+        "loaderParent",
+        "officeParent",
+        "psImage"
+      ]
+    },
+    {
+      "n": 6,
+      "origin": "tune",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 (ParentImage=\"*\\\\winword.exe\" OR ParentImage=\"*\\\\excel.exe\" OR ParentImage=\"*\\\\powerpnt.exe\" OR ParentImage=\"*\\\\outlook.exe\" OR ParentImage=\"*\\\\msaccess.exe\" OR ParentImage=\"*\\\\mspub.exe\" OR ParentImage=\"*\\\\visio.exe\" OR ParentImage=\"*\\\\onenote.exe\" OR Image=\"*\\\\powershell.exe\" OR Image=\"*\\\\pwsh.exe\") | where match(CommandLine, \"(?i)[\\\\s](-{1,2}|/)e(n(c(o(d(e(d(c(o(m(m(a(n(d)?)?)?)?)?)?)?)?)?)?)?)?)?[\\\\s:]+[A-Za-z0-9+/=]{12,}\") | eval officeParent=if(match(ParentImage, \"(?i)\\\\\\\\(winword|excel|powerpnt|outlook|msaccess|mspub|visio|onenote)\\\\.exe$\"),1,0) | eval loaderParent=if(match(ParentImage, \"(?i)\\\\\\\\(cmd|wscript|cscript|mshta|powershell|pwsh)\\\\.exe$\"),1,0) | eval psImage=if(match(Image, \"(?i)\\\\\\\\(powershell|pwsh)\\\\.exe$\"),1,0) | where officeParent=1 OR (loaderParent=1 AND psImage=1) | stats count min(_time) as firstTime max(_time) as lastTime values(CommandLine) as CommandLine values(Image) as Image values(ParentImage) as ParentImage by Computer",
+      "group_fields": [
+        "Computer"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EventCode",
+        "Image",
+        "ParentImage",
+        "loaderParent",
+        "officeParent",
+        "psImage"
+      ]
+    }
+  ],
+  "gates": {
+    "draft": 6,
+    "lint": {
+      "errors": [],
+      "warnings": []
+    },
+    "gate_spl": "search index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 (ParentImage=\"*\\\\winword.exe\" OR ParentImage=\"*\\\\excel.exe\" OR ParentImage=\"*\\\\powerpnt.exe\" OR ParentImage=\"*\\\\outlook.exe\" OR ParentImage=\"*\\\\msaccess.exe\" OR ParentImage=\"*\\\\mspub.exe\" OR ParentImage=\"*\\\\visio.exe\" OR ParentImage=\"*\\\\onenote.exe\" OR Image=\"*\\\\powershell.exe\" OR Image=\"*\\\\pwsh.exe\") | where match(CommandLine, \"(?i)[\\\\s](-{1,2}|/)e(n(c(o(d(e(d(c(o(m(m(a(n(d)?)?)?)?)?)?)?)?)?)?)?)?)?[\\\\s:]+[A-Za-z0-9+/=]{12,}\") | eval officeParent=if(match(ParentImage, \"(?i)\\\\\\\\(winword|excel|powerpnt|outlook|msaccess|mspub|visio|onenote)\\\\.exe$\"),1,0) | eval loaderParent=if(match(ParentImage, \"(?i)\\\\\\\\(cmd|wscript|cscript|mshta|powershell|pwsh)\\\\.exe$\"),1,0) | eval psImage=if(match(Image, \"(?i)\\\\\\\\(powershell|pwsh)\\\\.exe$\"),1,0) | where officeParent=1 OR (loaderParent=1 AND psImage=1) | bin _time span=20m | stats count min(_time) as firstTime max(_time) as lastTime values(CommandLine) as CommandLine values(Image) as Image values(ParentImage) as ParentImage by _time Computer | sort 0 - count",
+    "run": {
+      "count": 1,
+      "scan_count": 912000,
+      "errors": []
+    },
+    "recall": {
+      "ran": true,
+      "counts": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "ok": true
+    },
+    "rate_per_day": 0.14285714285714285,
+    "threshold": 5,
+    "window_seconds": 604800,
+    "top_values": {},
+    "sample_rows": [
+      {
+        "Computer": "WS01.corp.local",
+        "count": "1"
+      }
+    ],
+    "problems": [
+      "high-cardinality group fields: Computer (1 distinct / 1 rows)"
+    ],
+    "ok": true
+  },
+  "review_log": [
+    {
+      "round": 1,
+      "draft": 3,
+      "findings": [
+        {
+          "category": "evasion",
+          "severity": "critical",
+          "detail": "The command-line regex `\\s-e(nc|ncodedcommand)?\\s+[base64]` only matches the parameter forms `-e`, `-enc`, and `-encodedcommand`. PowerShell accepts ANY unambiguous prefix of -EncodedCommand, so `-ec`, `-en`, `-enco`, `-encod`, `-encode`, `-encoded`, `-encodedc`, `-encodedco`, `-encodedcom`, etc. are all valid and all evade this filter. `-ec <base64>` is one of the most commonly used forms in real tradecraft and is completely missed. This fully bypasses attack_step 2.",
+          "fix_hint": "Match any prefix/separator: e.g. `(?i)[\\s](/|-{1,2})e(c|n(c(oded?command)?)?)?[\\s:]+[A-Za-z0-9+/=]{12,}` so that -e, -ec, -en, -enc ... -encodedcommand and -enc:/-e: syntaxes are all covered."
+        },
+        {
+          "category": "evasion",
+          "severity": "high",
+          "detail": "The regex requires `\\s+` (whitespace) between the parameter and the base64 blob. PowerShell also accepts the colon binding syntax `-enc:<base64>` / `-e:<base64>` / `-EncodedCommand:<base64>`. Because a colon is not `\\s`, `powershell.exe -enc:SQBFAFg...` is not matched even though it is a direct hit on attack_step 2.",
+          "fix_hint": "Allow colon as a separator: replace `\\s+` after the parameter with `[\\s:]+`."
+        },
+        {
+          "category": "evasion",
+          "severity": "medium",
+          "detail": "The base search hard-pins Image to `*\\powershell.exe`. PowerShell Core `pwsh.exe` (and a copied/renamed powershell.exe, e.g. `C:\\Users\\Public\\pwned.exe`) also accepts `-enc`/`-EncodedCommand` and can be spawned by Office. Any renamed Windows PowerShell host or pwsh.exe evades the detection entirely while satisfying both attack steps.",
+          "fix_hint": "Match on OriginalFileName=PowerShell.EXE/pwsh.dll (Sysmon field) instead of/in addition to Image basename, or add `Image=\"*\\pwsh.exe\"` and alert on the -enc pattern regardless of host binary name."
+        },
+        {
+          "category": "logic",
+          "severity": "low",
+          "detail": "The whitelist exclusion is dead code. It only excludes rows where CommandLine matches the Finance `...-NoProfile -ExecutionPolicy Bypass -File C:\\Scripts\\Finance\\*.ps1` pattern. That CommandLine contains no `-enc`/base64, so it can never pass the preceding `match(CommandLine, ...-e(nc)... base64)` filter. The AND'd exclusion therefore never removes any event and adds brittleness/cost for no effect. It is also not attacker-exploitable (to be excluded the payload would have to not be an encoded command).",
+          "fix_hint": "Remove the exclusion, or if a real benign Office->PowerShell encoded job exists, whitelist it on a stable field (hash/signer/known base64 prefix) rather than a contradictory CommandLine regex."
+        }
+      ],
+      "evasion_events": [
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>powershell.exe -ec SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAKQA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data></EventData></Event>",
+          "note": "Office (WINWORD) spawns powershell using the valid abbreviation `-ec` instead of -enc/-encodedcommand. Hits both attack steps but the `-e(nc|ncodedcommand)?` regex does not match `-ec`, so it is fully missed."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS04.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>powershell.exe -enc:SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAKQA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE\" /automation</Data></EventData></Event>",
+          "note": "Uses the colon-bound parameter form `-enc:<base64>`. The detection requires `\\s+` after the parameter, so the colon separator evades the CommandLine regex."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS04.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Program Files\\PowerShell\\7\\pwsh.exe</Data><Data Name='OriginalFileName'>pwsh.dll</Data><Data Name='CommandLine'>pwsh.exe -EncodedCommand SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAKQA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE\"</Data></EventData></Event>",
+          "note": "PowerShell Core (pwsh.exe) spawned by OUTLOOK with a full -EncodedCommand. Satisfies both attack steps but the base-search Image filter `*\\powershell.exe` never matches pwsh.exe, so the event is dropped before any regex runs."
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "draft": 4,
+      "findings": [
+        {
+          "category": "evasion",
+          "severity": "high",
+          "detail": "The current CommandLine regex `(?i)[\\s](/|-{1,2})e(c|n(c(oded?command)?)?)?[\\s:]+[A-Za-z0-9+/=]{12,}` now covers -e, -ec, -en, -enc and the full -encodedcommand (the prior -ec gap and the colon-binding gap are both RESOLVED). However PowerShell accepts every unambiguous prefix of -EncodedCommand, and the intermediate prefixes -enco, -encod, -encode, -encoded, -encodedc, -encodedco, -encodedcom, -encodedcomm, -encodedcomma, -encodedcomman are still NOT matched: after `enc` the group only accepts empty or the full `ode[d]command`, so `-encoded <base64>` fails the `[\\s:]+` anchor. `powershell.exe -encode <b64>` directly satisfies attack_step 2 and is fully missed.",
+          "fix_hint": "Match any prefix, e.g. collapse the parameter alternation to `e(n(c(o(d(e(d(c(o(m(m(a(n(d)?)?)?)?)?)?)?)?)?)?)?)?)?` or simply `e[ncodedcommand]*` so all valid truncations (-enco … -encodedcommand) are covered."
+        },
+        {
+          "category": "evasion",
+          "severity": "medium",
+          "detail": "ParentImage is pinned to winword|excel|outlook. Other Office binaries that host VBA macros and can spawn PowerShell are not covered: powerpnt.exe (PowerPoint), msaccess.exe, mspub.exe, visio.exe, onenote.exe. A PowerPoint/Access macro launching powershell.exe -enc <b64> satisfies both attack steps but produces ParentImage=POWERPNT.EXE and is never evaluated.",
+          "fix_hint": "Extend the ParentImage alternation to include powerpnt|msaccess|mspub|visio|onenote (and consider mshta/wscript/cscript as macro-dropped loaders)."
+        },
+        {
+          "category": "evasion",
+          "severity": "medium",
+          "detail": "The ParentImage match requires the DIRECT parent to be an Office binary. A trivially common macro pattern spawns an intermediary first (WINWORD -> cmd.exe -> powershell, or WINWORD -> wscript.exe -> powershell). In that case ParentImage=cmd.exe/wscript.exe and the event is dropped even though the Office->PowerShell chain is intact. This breaks attack_step 1 whenever one hop is inserted.",
+          "fix_hint": "Do not rely solely on immediate ParentImage; correlate on process-ancestry (e.g. join/stats over GUIDs to find an Office ancestor) or add cmd/wscript/cscript/mshta parents when their own parent is Office."
+        },
+        {
+          "category": "evasion",
+          "severity": "medium",
+          "detail": "Image is restricted to `\\(powershell|pwsh)\\.exe$` (pwsh is now covered - that part of the prior finding is RESOLVED). A copied/renamed PowerShell host (e.g. C:\\Users\\Public\\svc.exe) still accepts -enc/-EncodedCommand and evades entirely while Sysmon EventID 1 preserves OriginalFileName=PowerShell.EXE which the search ignores.",
+          "fix_hint": "Add an OR on OriginalFileName/Description matching PowerShell, or detect the -enc <b64> CommandLine pattern regardless of Image name when parent is Office."
+        },
+        {
+          "category": "performance",
+          "severity": "low",
+          "detail": "The base search filters only sourcetype and EventCode=1, pulling every process-creation event, then applies three sequential `where match()` regexes. There is no index-time narrowing on Image/ParentImage, so every scheduled run (every 15m) scans all EventID 1 events. hits_per_day is 0.14 - almost all scanned events are discarded.",
+          "fix_hint": "Push literals into the base search (e.g. Image=*powershell* OR Image=*pwsh* AND (ParentImage=*winword* OR ...)) or use tstats against the data model to reduce scanned volume before the regex stage."
+        }
+      ],
+      "evasion_events": [
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -encoded SQBFAFgAIABuAGUAdAA9AHgA</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data></EventData></Event>",
+          "note": "Uses the valid -encoded prefix of -EncodedCommand. The regex accepts -enc or the full -encodedcommand but not -encoded, so the `[\\s:]+<base64>` anchor never binds and this direct Office->PowerShell encoded-command execution is fully missed."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -enc SQBFAFgAIABuAGUAdAA9AHgA</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE\" /n</Data></EventData></Event>",
+          "note": "Valid -enc encoded command but the parent is PowerPoint (POWERPNT.EXE). ParentImage is only matched against winword|excel|outlook, so a PowerPoint macro loader evades."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>powershell.exe -enc SQBFAFgAIABuAGUAdAA9AHgA</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Windows\\System32\\cmd.exe</Data><Data Name='ParentCommandLine'>\"C:\\Windows\\System32\\cmd.exe\" /c powershell.exe -enc SQBFAFgAIABuAGUAdAA9AHgA</Data></EventData></Event>",
+          "note": "Office macro spawns cmd.exe which spawns powershell (WINWORD->cmd->powershell). Immediate ParentImage is cmd.exe, so the direct-parent match fails even though the encoded command and Office ancestry are present."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Users\\Public\\svc.exe</Data><Data Name='OriginalFileName'>PowerShell.EXE</Data><Data Name='CommandLine'>\"C:\\Users\\Public\\svc.exe\" -enc SQBFAFgAIABuAGUAdAA9AHgA</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data></EventData></Event>",
+          "note": "A copy of powershell.exe renamed to svc.exe, spawned by WINWORD with a valid -enc encoded command. OriginalFileName still reports PowerShell.EXE but the Image regex only matches powershell|pwsh, so the renamed host evades."
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "draft": 6,
+      "findings": [
+        {
+          "category": "evasion",
+          "severity": "high",
+          "detail": "REGRESSION vs prior 'RESOLVED' note. The current CommandLine regex is a strictly-nested prefix chain: `e(n(c(o(d(e(d(c(o(m(m(a(n(d)?)?)?)?)?)?)?)?)?)?)?)?)?`. Reaching the letter `c` requires `n` to be present first, so while -e,-en,-enc,-enco...-encodedcommand all match, the abbreviation `-ec` has NO path (there is no direct alternation for c after e). `-ec` is an unambiguous PowerShell prefix (only EncodedCommand has 'ec'; ExecutionPolicy is 'ex'), so `powershell.exe -ec <base64>` is accepted by PowerShell and directly satisfies attack_step 2 but is never matched. Fully missed.",
+          "fix_hint": "Add an explicit alternation for the bare -ec/-e forms, e.g. allow `e[cn]?` as a branch in parallel with the full encodedcommand chain: `e(c|n(c(ode...)?)?)?`."
+        },
+        {
+          "category": "evasion",
+          "severity": "medium",
+          "detail": "The CommandLine regex anchors the flag to `[\\s](-{1,2}|/)` — only ASCII hyphen or forward slash. PowerShell also accepts Unicode dash variants (en-dash U+2013, em-dash U+2014, horizontal bar U+2015) as parameter prefixes. `powershell.exe –enc <base64>` runs identically but the leading `–` is not `-`/`/`, so match() fails and the event is dropped despite both attack steps being met.",
+          "fix_hint": "Include Unicode dash code points in the flag prefix class, e.g. `(-{1,2}|[‒-―]|/)`."
+        },
+        {
+          "category": "evasion",
+          "severity": "medium",
+          "detail": "The renamed-PowerShell gap is only closed for the DIRECT-Office-parent path (officeParent=1 fires regardless of Image). When an attacker inserts one loader hop (WINWORD -> cmd.exe/wscript.exe -> copied/renamed PowerShell host such as C:\\Users\\Public\\svc.exe), the detecting event has ParentImage=cmd.exe (loaderParent=1) but Image!=powershell/pwsh (psImage=0) and officeParent=0, so the final `where officeParent=1 OR (loaderParent=1 AND psImage=1)` drops it. Worse, the base search won't even return it because ParentImage is not an Office binary and Image is not powershell/pwsh. Sysmon EventID 1 carries OriginalFileName=PowerShell.EXE which the search never inspects.",
+          "fix_hint": "Add OriginalFileName to the base search and to psImage, e.g. psImage=if(match(Image,...) OR match(OriginalFileName,'(?i)^powershell\\\\.exe$'),1,0), and include OriginalFileName in the base filter."
+        },
+        {
+          "category": "false_positive",
+          "severity": "medium",
+          "detail": "The loaderParent branch `(loaderParent=1 AND psImage=1)` fires on ANY cmd/wscript/cscript/mshta -> powershell -enc event, with no verification that an Office process is the grandparent. Enterprise tooling (SCCM/ConfigMgr, GPO logon scripts, scheduled tasks, RMM agents) routinely runs `cmd /c powershell -enc <base64>`, which fully satisfies this branch while having nothing to do with attack_step 1 (Office spawning PowerShell). Currently masked because hits_per_day is 0.14 in this environment, but in a managed estate this branch will generate daily benign firings.",
+          "fix_hint": "Tie the loader branch to Office ancestry (e.g. correlate ParentProcessGuid back to an Office EventID 1, or require ParentCommandLine to reference an Office doc), or allowlist known admin loader parents by signed path."
+        }
+      ],
+      "evasion_events": [
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>powershell.exe -ec JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data></EventData></Event>",
+          "note": "WINWORD -> powershell.exe using the valid `-ec` abbreviation. officeParent=1 and base search match, but the nested regex has no path to `c` without `n` first, so -ec is never matched. Search must fire."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>powershell.exe –enc JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE\" /dde</Data></EventData></Event>",
+          "note": "EXCEL -> powershell using an en-dash (U+2013) before enc. PowerShell accepts it; officeParent=1 and Image is powershell, but the regex flag class only accepts -/ so match() fails. Search must fire."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Users\\Public\\svc.exe</Data><Data Name='OriginalFileName'>PowerShell.EXE</Data><Data Name='CommandLine'>svc.exe -enc JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Windows\\System32\\cmd.exe</Data><Data Name='ParentCommandLine'>cmd.exe /c svc.exe -enc JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data></EventData></Event>",
+          "note": "Office -> cmd.exe -> renamed PowerShell host (svc.exe, OriginalFileName=PowerShell.EXE). loaderParent=1 but psImage=0 and officeParent=0, so the final where drops it; base search also excludes it. Matching OriginalFileName would catch it. Search must fire."
+        }
+      ]
+    }
+  ],
+  "failed_attempts": [],
+  "history": [
+    {
+      "ts": "2026-11-05T03:10:22Z",
+      "step": "match",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-05T03:10:43Z",
+      "step": "author",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.060791000000000005
+    },
+    {
+      "ts": "2026-11-05T03:10:43Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-05T03:10:46Z",
+      "step": "tune",
+      "model": "claude-sonnet-5-5",
+      "cost_usd": 0.020485000000000003
+    },
+    {
+      "ts": "2026-11-05T03:10:46Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-05T03:10:51Z",
+      "step": "tune",
+      "model": "claude-sonnet-5-5",
+      "cost_usd": 0.017147400000000004
+    },
+    {
+      "ts": "2026-11-05T03:10:51Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-05T03:12:21Z",
+      "step": "review",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.221244
+    },
+    {
+      "ts": "2026-11-05T03:13:21Z",
+      "step": "refine",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.17387599999999998
+    },
+    {
+      "ts": "2026-11-05T03:13:21Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-05T03:15:06Z",
+      "step": "review",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.24287400000000003
+    },
+    {
+      "ts": "2026-11-05T03:16:44Z",
+      "step": "refine",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.24898800000000001
+    },
+    {
+      "ts": "2026-11-05T03:16:44Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-05T03:18:14Z",
+      "step": "tune",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.22491899999999998
+    },
+    {
+      "ts": "2026-11-05T03:18:14Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-05T03:20:15Z",
+      "step": "review",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.267298
+    }
+  ],
+  "outputs": []
+}

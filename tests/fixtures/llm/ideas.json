@@ -1,0 +1,176 @@
+[
+  {
+    "ideas": [
+      {
+        "title": "Office app spawns encoded PowerShell",
+        "summary": "A malicious Word macro launches powershell.exe with -EncodedCommand to fetch a second stage.",
+        "attack_steps": [
+          "winword.exe or excel.exe or outlook.exe spawns powershell.exe",
+          "powershell.exe command line contains -enc or -EncodedCommand followed by base64"
+        ],
+        "indicators": [
+          "-EncodedCommand",
+          "-enc ",
+          "powershell.exe"
+        ],
+        "mitre_attack_id": [
+          "T1059.001",
+          "T1566.001"
+        ],
+        "type": "TTP",
+        "severity": "high",
+        "log_sources": [
+          {
+            "product": "Windows Sysmon",
+            "keywords": [
+              "sysmon"
+            ],
+            "fields": [
+              "EventCode",
+              "Image",
+              "ParentImage",
+              "CommandLine"
+            ]
+          },
+          {
+            "product": "Windows Security",
+            "keywords": [
+              "wineventlog",
+              "security",
+              "4688"
+            ],
+            "fields": [
+              "EventCode",
+              "New_Process_Name",
+              "Creator_Process_Name",
+              "Process_Command_Line"
+            ]
+          }
+        ],
+        "false_positive_notes": "Admin scripts launched from Office automation in finance.",
+        "attack_examples": []
+      },
+      {
+        "title": "Scheduled task persistence created by PowerShell",
+        "summary": "The second-stage PowerShell creates a scheduled task named OneDriveUpdater that runs a script from AppData every hour to persist on the host.",
+        "attack_steps": [
+          "powershell.exe spawns schtasks.exe",
+          "schtasks.exe command line contains /create and /sc hourly and a path under AppData"
+        ],
+        "indicators": [
+          "schtasks.exe",
+          "/create",
+          "OneDriveUpdater"
+        ],
+        "mitre_attack_id": [
+          "T1053.005"
+        ],
+        "type": "TTP",
+        "severity": "medium",
+        "log_sources": [
+          {
+            "product": "Windows Sysmon",
+            "keywords": [
+              "sysmon"
+            ],
+            "fields": [
+              "EventCode",
+              "Image",
+              "ParentImage",
+              "CommandLine"
+            ]
+          }
+        ],
+        "false_positive_notes": "Software deployment tools that register update tasks via PowerShell.",
+        "attack_examples": []
+      }
+    ]
+  },
+  {
+    "ideas": [
+      {
+        "title": "Office app spawns encoded PowerShell",
+        "summary": "A malicious Word macro launches powershell.exe with -EncodedCommand to fetch a second stage.",
+        "attack_steps": [
+          "winword.exe or excel.exe or outlook.exe spawns powershell.exe",
+          "powershell.exe command line contains -enc or -EncodedCommand followed by base64"
+        ],
+        "indicators": [
+          "-EncodedCommand",
+          "-enc ",
+          "powershell.exe"
+        ],
+        "mitre_attack_id": [
+          "T1059.001",
+          "T1566.001"
+        ],
+        "type": "TTP",
+        "severity": "high",
+        "log_sources": [
+          {
+            "product": "Windows Sysmon",
+            "keywords": [
+              "sysmon"
+            ],
+            "fields": [
+              "EventCode",
+              "Image",
+              "ParentImage",
+              "CommandLine"
+            ]
+          },
+          {
+            "product": "Windows Security",
+            "keywords": [
+              "wineventlog",
+              "security",
+              "4688"
+            ],
+            "fields": [
+              "EventCode",
+              "New_Process_Name",
+              "Creator_Process_Name",
+              "Process_Command_Line"
+            ]
+          }
+        ],
+        "false_positive_notes": "Admin scripts launched from Office automation in finance.",
+        "attack_examples": []
+      },
+      {
+        "title": "Scheduled task persistence created by PowerShell",
+        "summary": "The second-stage PowerShell creates a scheduled task named OneDriveUpdater that runs a script from AppData every hour to persist on the host.",
+        "attack_steps": [
+          "powershell.exe spawns schtasks.exe",
+          "schtasks.exe command line contains /create and /sc hourly and a path under AppData"
+        ],
+        "indicators": [
+          "schtasks.exe",
+          "/create",
+          "OneDriveUpdater"
+        ],
+        "mitre_attack_id": [
+          "T1053.005"
+        ],
+        "type": "TTP",
+        "severity": "medium",
+        "log_sources": [
+          {
+            "product": "Windows Sysmon",
+            "keywords": [
+              "sysmon"
+            ],
+            "fields": [
+              "EventCode",
+              "Image",
+              "ParentImage",
+              "CommandLine"
+            ]
+          }
+        ],
+        "false_positive_notes": "Software deployment tools that register update tasks via PowerShell.",
+        "attack_examples": []
+      }
+    ]
+  }
+]

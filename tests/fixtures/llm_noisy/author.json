@@ -1,0 +1,8 @@
+[
+  {
+    "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 Image=\"*\\\\powershell.exe\" | stats count min(_time) as firstTime max(_time) as lastTime by Computer User ParentImage Image CommandLine"
+  },
+  {
+    "spl": "index=wineventlog sourcetype=\"WinEventLog:Security\" EventCode=4688 New_Process_Name=\"*\\\\powershell.exe\" | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName Account_Name Creator_Process_Name New_Process_Name Process_Command_Line"
+  }
+]

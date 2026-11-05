@@ -1,0 +1,501 @@
+{
+  "state": "failed_review",
+  "prior_state": null,
+  "error": null,
+  "idea_path": "tests/fixtures/idea.yml",
+  "splunk_kind": "mock",
+  "run_id": "f01e2938",
+  "config": {
+    "max_tunes": 3,
+    "max_remakes": 1,
+    "max_reviews": 2,
+    "max_cost_usd": 4.0,
+    "window": "-7d",
+    "attack_index": "dea_attack",
+    "out_dir": "detections",
+    "max_scan_count": 50000000,
+    "models": {
+      "author": "claude-opus-4-8",
+      "review": "claude-opus-4-8",
+      "refine": "claude-opus-4-8"
+    }
+  },
+  "tunes": 3,
+  "remakes": 0,
+  "reviews": 2,
+  "cost_usd": 1.6347535999999998,
+  "status_cap": "experimental",
+  "sources": [
+    {
+      "index": "wineventlog",
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "score": 24,
+      "data_source": "Sysmon EventID 1",
+      "asset_type": "Endpoint",
+      "security_domain": "endpoint"
+    },
+    {
+      "index": "wineventlog",
+      "sourcetype": "WinEventLog:Security",
+      "score": 24,
+      "data_source": "Windows Event Log Security 4688",
+      "asset_type": "Endpoint",
+      "security_domain": "endpoint"
+    }
+  ],
+  "examples": [
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data><Data Name='IntegrityLevel'>Medium</Data></EventData></Event>",
+      "host": "dea-f01e2938-0"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe\" -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA</Data><Data Name='User'>CORP\\bwayne</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data><Data Name='IntegrityLevel'>Medium</Data></EventData></Event>",
+      "host": "dea-f01e2938-1"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS02.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -encoded SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA</Data><Data Name='User'>CORP\\bwayne</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE\"</Data><Data Name='IntegrityLevel'>Medium</Data></EventData></Event>",
+      "host": "dea-f01e2938-2"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS02.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -enc:SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA</Data><Data Name='User'>CORP\\bwayne</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE\"</Data><Data Name='IntegrityLevel'>Medium</Data></EventData></Event>",
+      "host": "dea-f01e2938-3"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\powershell.exe</Data><Data Name='OriginalFileName'>PowerShell.EXE</Data><Data Name='CommandLine'>powershell.exe -enc JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='IntegrityLevel'>Medium</Data><Data Name='ParentImage'>C:\\Windows\\System32\\cmd.exe</Data><Data Name='ParentCommandLine'>cmd.exe /c powershell -enc JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data></EventData></Event>",
+      "host": "dea-f01e2938-4"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Users\\Public\\updater.exe</Data><Data Name='OriginalFileName'>PowerShell.EXE</Data><Data Name='CommandLine'>\"C:\\Users\\Public\\updater.exe\" -EncodedCommand JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='IntegrityLevel'>Medium</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data></EventData></Event>",
+      "host": "dea-f01e2938-5"
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+      "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS02.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='OriginalFileName'>PowerShell.EXE</Data><Data Name='CommandLine'>powershell.exe -encodedcommand JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='IntegrityLevel'>Medium</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE\" /n</Data></EventData></Event>",
+      "host": "dea-f01e2938-6"
+    }
+  ],
+  "drafts": [
+    {
+      "n": 1,
+      "origin": "author",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 Image=\"*\\\\powershell.exe\" (ParentImage=\"*\\\\WINWORD.EXE\" OR ParentImage=\"*\\\\EXCEL.EXE\" OR ParentImage=\"*\\\\OUTLOOK.EXE\") | where match(CommandLine, \"(?i)(-enc(odedcommand)?)\\s+[A-Za-z0-9+/=]{20,}\") | where NOT (IntegrityLevel=\"High\" AND match(User, \"(?i)^CORP\\\\\\\\(svc_fin|fin_admin)\")) | stats count min(_time) as firstTime max(_time) as lastTime values(CommandLine) as CommandLine values(ParentImage) as ParentImage values(User) as User by Computer, Image",
+      "group_fields": [
+        "Computer",
+        "Image"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EventCode",
+        "Image",
+        "IntegrityLevel",
+        "ParentImage",
+        "User"
+      ]
+    },
+    {
+      "n": 2,
+      "origin": "tune",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 Image=\"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" (ParentImage=\"*\\\\WINWORD.EXE\" OR ParentImage=\"*\\\\EXCEL.EXE\" OR ParentImage=\"*\\\\OUTLOOK.EXE\") | where match(CommandLine, \"(?i)\\s-(enc|encodedcommand|e|ec)\\s+[A-Za-z0-9+/=]{20,}\") | where NOT (IntegrityLevel=\"High\" AND match(User, \"(?i)^CORP\\\\\\\\(svc_fin|fin_admin)$\")) | stats count min(_time) as firstTime max(_time) as lastTime values(CommandLine) as CommandLine values(Computer) as Computer by ParentImage, User",
+      "group_fields": [
+        "ParentImage",
+        "User"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EventCode",
+        "Image",
+        "IntegrityLevel",
+        "ParentImage",
+        "User"
+      ]
+    },
+    {
+      "n": 3,
+      "origin": "tune",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 Image=\"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" (ParentImage=\"*\\\\WINWORD.EXE\" OR ParentImage=\"*\\\\EXCEL.EXE\" OR ParentImage=\"*\\\\OUTLOOK.EXE\") | where match(CommandLine, \"(?i)\\s-(enc|encodedcommand|ec|e)\\s+[A-Za-z0-9+/=]{20,}\") | where NOT (match(User, \"(?i)^CORP\\\\\\\\(jdoe|asmith)$\") AND match(ParentImage, \"(?i)^C:\\\\\\\\Program Files\\\\\\\\Microsoft Office\\\\\\\\root\\\\\\\\Office16\\\\\\\\(WINWORD|EXCEL)\\.EXE$\") AND IntegrityLevel=\"Medium\" AND NOT match(CommandLine, \"(?i)(-w(indowstyle)?\\s+hidden|-nop|-noprofile|bypass|downloadstring|iex|frombase64string|http)\")) | stats count min(_time) as firstTime max(_time) as lastTime values(CommandLine) as CommandLine values(Computer) as Computer by ParentImage, User",
+      "group_fields": [
+        "ParentImage",
+        "User"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EventCode",
+        "Image",
+        "IntegrityLevel",
+        "ParentImage",
+        "User"
+      ]
+    },
+    {
+      "n": 4,
+      "origin": "refine",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 Image=\"*\\\\powershell.exe\" (ParentImage=\"*\\\\WINWORD.EXE\" OR ParentImage=\"*\\\\EXCEL.EXE\" OR ParentImage=\"*\\\\OUTLOOK.EXE\") | where match(CommandLine, \"(?i)\\\\s-(e|ec|en|enc|enco|encod|encode|encoded|encodedc|encodedco|encodedcom|encodedcomm|encodedcomma|encodedcomman|encodedcommand)[\\\\s:]+[A-Za-z0-9+/=]{20,}\") | stats count min(_time) as firstTime max(_time) as lastTime values(CommandLine) as CommandLine values(Image) as Image values(IntegrityLevel) as IntegrityLevel values(Computer) as Computer by ParentImage, User",
+      "group_fields": [
+        "ParentImage",
+        "User"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EventCode",
+        "Image",
+        "IntegrityLevel",
+        "ParentImage",
+        "User"
+      ]
+    },
+    {
+      "n": 5,
+      "origin": "refine",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 (OriginalFileName=\"PowerShell.EXE\" OR OriginalFileName=\"pwsh.dll\" OR Image=\"*\\\\powershell.exe\" OR Image=\"*\\\\pwsh.exe\") | eval ParentLower=lower(ParentImage) | where match(CommandLine, \"(?i)\\s-(e|ec|en|enc|enco|encod|encode|encoded|encodedc|encodedco|encodedcom|encodedcomm|encodedcomma|encodedcomman|encodedcommand)[\\s:]+[A-Za-z0-9+/=]{20,}\") | where match(ParentLower, \"\\\\\\\\(winword|excel|outlook|powerpnt|msaccess|mspub|visio|onenote|cmd|wscript|cscript|mshta|rundll32|regsvr32)\\\\.exe$\") | rex field=CommandLine \"(?i)-(?:encodedcommand|encodedcomman|encodedcomma|encodedcomm|encodedcom|encodedco|encodedc|encoded|encode|encod|enco|enc|en|ec|e)[\\s:]+(?<EncodedPayload>[A-Za-z0-9+/=]{20,})\" | eval EncodedLen=len(EncodedPayload) | eval ParentType=if(match(ParentLower, \"\\\\\\\\(winword|excel|outlook|powerpnt|msaccess|mspub|visio|onenote)\\\\.exe$\"), \"office_direct\", \"intermediary\") | where NOT (IntegrityLevel=\"High\" OR IntegrityLevel=\"System\") | stats count min(_time) as firstTime max(_time) as lastTime values(Image) as Image values(CommandLine) as CommandLine values(EncodedPayload) as EncodedPayload values(EncodedLen) as EncodedLen values(ParentType) as ParentType values(IntegrityLevel) as IntegrityLevel values(Computer) as Computer by ParentImage, User",
+      "group_fields": [
+        "ParentImage",
+        "User"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EncodedLen",
+        "EncodedPayload",
+        "EventCode",
+        "Image",
+        "IntegrityLevel",
+        "OriginalFileName",
+        "ParentImage",
+        "ParentLower",
+        "ParentType",
+        "User"
+      ]
+    },
+    {
+      "n": 6,
+      "origin": "tune",
+      "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 (OriginalFileName=\"PowerShell.EXE\" OR OriginalFileName=\"pwsh.dll\" OR Image=\"*\\\\powershell.exe\" OR Image=\"*\\\\pwsh.exe\") | eval ParentLower=lower(ParentImage) | rex field=CommandLine \"(?i)[-/](?:encodedcommand|encodedcomman|encodedcomma|encodedcomm|encodedcom|encodedco|encodedc|encoded|encode|encod|enco|enc|en|ec|e)[\\s:]+(?<EncodedPayload>[A-Za-z0-9+/=]{20,})\" | where isnotnull(EncodedPayload) | where match(ParentLower, \"\\\\(winword|excel|outlook|powerpnt|msaccess|mspub|visio|onenote|cmd|wscript|cscript|mshta|rundll32|regsvr32)\\.exe$\") | eval EncodedLen=len(EncodedPayload) | eval ParentType=if(match(ParentLower, \"\\\\(winword|excel|outlook|powerpnt|msaccess|mspub|visio|onenote)\\.exe$\"), \"office_direct\", \"intermediary\") | where NOT (IntegrityLevel=\"High\" OR IntegrityLevel=\"System\") | stats count min(_time) as firstTime max(_time) as lastTime values(Image) as Image values(CommandLine) as CommandLine values(EncodedPayload) as EncodedPayload values(EncodedLen) as EncodedLen dc(EncodedPayload) as distinctPayloads values(ParentType) as ParentType values(IntegrityLevel) as IntegrityLevel values(Computer) as Computer by ParentImage, User",
+      "group_fields": [
+        "ParentImage",
+        "User"
+      ],
+      "fields_used": [
+        "CommandLine",
+        "Computer",
+        "EncodedLen",
+        "EncodedPayload",
+        "EventCode",
+        "Image",
+        "IntegrityLevel",
+        "OriginalFileName",
+        "ParentImage",
+        "ParentLower",
+        "ParentType",
+        "User"
+      ]
+    }
+  ],
+  "gates": {
+    "draft": 6,
+    "lint": {
+      "errors": [],
+      "warnings": [
+        "unverified field 'OriginalFileName'"
+      ]
+    },
+    "gate_spl": "search index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 (OriginalFileName=\"PowerShell.EXE\" OR OriginalFileName=\"pwsh.dll\" OR Image=\"*\\\\powershell.exe\" OR Image=\"*\\\\pwsh.exe\") | eval ParentLower=lower(ParentImage) | rex field=CommandLine \"(?i)[-/](?:encodedcommand|encodedcomman|encodedcomma|encodedcomm|encodedcom|encodedco|encodedc|encoded|encode|encod|enco|enc|en|ec|e)[\\s:]+(?<EncodedPayload>[A-Za-z0-9+/=]{20,})\" | where isnotnull(EncodedPayload) | where match(ParentLower, \"\\\\(winword|excel|outlook|powerpnt|msaccess|mspub|visio|onenote|cmd|wscript|cscript|mshta|rundll32|regsvr32)\\.exe$\") | eval EncodedLen=len(EncodedPayload) | eval ParentType=if(match(ParentLower, \"\\\\(winword|excel|outlook|powerpnt|msaccess|mspub|visio|onenote)\\.exe$\"), \"office_direct\", \"intermediary\") | where NOT (IntegrityLevel=\"High\" OR IntegrityLevel=\"System\") | bin _time span=20m | stats count min(_time) as firstTime max(_time) as lastTime values(Image) as Image values(CommandLine) as CommandLine values(EncodedPayload) as EncodedPayload values(EncodedLen) as EncodedLen dc(EncodedPayload) as distinctPayloads values(ParentType) as ParentType values(IntegrityLevel) as IntegrityLevel values(Computer) as Computer by _time ParentImage, User | sort 0 - count",
+    "run": {
+      "count": 1,
+      "scan_count": 912000,
+      "errors": []
+    },
+    "recall": {
+      "ran": true,
+      "counts": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "ok": true
+    },
+    "rate_per_day": 0.14285714285714285,
+    "threshold": 5,
+    "window_seconds": 604800,
+    "top_values": {},
+    "sample_rows": [
+      {
+        "ParentImage": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+        "User": "CORP\\jdoe",
+        "count": "1"
+      }
+    ],
+    "problems": [
+      "high-cardinality group fields: ParentImage (1 distinct / 1 rows), User (1 distinct / 1 rows)",
+      "warning: unverified field 'OriginalFileName'"
+    ],
+    "ok": true
+  },
+  "review_log": [
+    {
+      "round": 1,
+      "draft": 3,
+      "findings": [
+        {
+          "category": "evasion",
+          "severity": "critical",
+          "detail": "The final exclusion whitelists User CORP\\jdoe or CORP\\asmith when ParentImage is Office16 WINWORD/EXCEL, IntegrityLevel=Medium, and CommandLine lacks the plaintext keywords (-w hidden|-nop|-noprofile|bypass|downloadstring|iex|frombase64string|http). But attack_step 2 is an -enc/-EncodedCommand base64 payload, where ALL of those keywords live inside the base64 blob, not the visible command line. So any attacker running (or compromising the token of) jdoe/asmith who spawns powershell -enc from a macro in Office16 Word/Excel at Medium integrity is fully excluded - exactly the primary attack this rule is meant to catch. The exclusion negates the detection.",
+          "fix_hint": "Do not whitelist encoded-command executions. Remove -enc activity from any benign-user allowlist, or require the allowlist to also prove the base64 decodes to an approved script; the keyword NOT-match is meaningless against -EncodedCommand."
+        },
+        {
+          "category": "evasion",
+          "severity": "high",
+          "detail": "Image is pinned to the exact path C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe. The 32-bit copy at C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe is a legitimate, always-present powershell.exe that satisfies attack_step 2 but does not match this literal path, so the search misses it entirely.",
+          "fix_hint": "Match on Image=\"*\\\\powershell.exe\" (or OriginalFileName=PowerShell.EXE) instead of a single absolute path, covering System32 and SysWOW64."
+        },
+        {
+          "category": "evasion",
+          "severity": "high",
+          "detail": "The regex alternation (enc|encodedcommand|ec|e) only matches those exact tokens followed by whitespace. PowerShell accepts any unambiguous prefix of -EncodedCommand, so -en, -enco, -encod, -encode, -encoded, -encodedc, -encodedcomman all work but are NOT matched (after 'enc' the next char 'o/d/e' is not \\s). Attacker uses 'powershell -encoded <base64>' and evades.",
+          "fix_hint": "Match the prefix family explicitly, e.g. (?i)\\s-(e|ec|en|enc|enco|encod|encode|encoded|encodedc|encodedco|encodedcom|encodedcomm|encodedcomma|encodedcomman|encodedcommand)\\b or use -e[ncodeam]* ... with a word boundary/separator class."
+        },
+        {
+          "category": "evasion",
+          "severity": "medium",
+          "detail": "The regex requires \\s+ between the switch and the base64 (-enc<space>B64). PowerShell also accepts a colon separator, e.g. -EncodedCommand:<base64> or -enc:<base64>, which has no whitespace and is not matched.",
+          "fix_hint": "Allow the separator to be whitespace OR colon: ...-(enc|...)[\\s:]+[A-Za-z0-9+/=]{20,}."
+        },
+        {
+          "category": "brittleness",
+          "severity": "low",
+          "detail": "The exclusion hardcodes the Office16 click-to-run path (...\\root\\Office16\\(WINWORD|EXCEL).EXE). Office version/channel changes (Office15, Office19, msi install path C:\\Program Files (x86)\\Microsoft Office\\...) would break the intended benign-user allowlist, causing it to no longer apply - noise rather than evasion, but the pinned version is fragile.",
+          "fix_hint": "Use a version-agnostic pattern such as *\\\\Microsoft Office\\\\*\\\\(WINWORD|EXCEL).EXE for the exclusion parent match."
+        }
+      ],
+      "evasion_events": [
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data><Data Name='IntegrityLevel'>Medium</Data></EventData></Event>",
+          "note": "Primary attack path, but User=CORP\\jdoe + Office16 WINWORD + Medium integrity + no plaintext bad keyword (all payload is in the base64) satisfies the final NOT-exclusion, so the search drops it. Demonstrates the critical whitelist defeat."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe\" -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA</Data><Data Name='User'>CORP\\bwayne</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data><Data Name='IntegrityLevel'>Medium</Data></EventData></Event>",
+          "note": "Legit 32-bit PowerShell at SysWOW64 path; Image!= the hardcoded System32 path so the search never matches despite being the exact attack behavior."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS02.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -encoded SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA</Data><Data Name='User'>CORP\\bwayne</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE\"</Data><Data Name='IntegrityLevel'>Medium</Data></EventData></Event>",
+          "note": "PowerShell accepts -encoded as a valid prefix of -EncodedCommand, but the regex alternation (enc|encodedcommand|ec|e)\\s+ fails because 'enc' is followed by 'o', not whitespace. Fully evades the where match()."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS02.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='CommandLine'>\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -enc:SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQA</Data><Data Name='User'>CORP\\bwayne</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE\"</Data><Data Name='IntegrityLevel'>Medium</Data></EventData></Event>",
+          "note": "Colon separator (-enc:<base64>) is valid PowerShell syntax; the regex requires \\s+ after the switch so it does not match and the event is missed."
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "draft": 4,
+      "findings": [
+        {
+          "category": "evasion",
+          "severity": "high",
+          "detail": "The rule requires the DIRECT ParentImage of powershell.exe to be WINWORD/EXCEL/OUTLOOK. The most common real-world maldoc pattern is Office spawning an intermediate (cmd.exe /c, wscript.exe, mshta.exe, or an LOLBin) which then launches powershell -enc. In that chain the powershell EventCode=1 event has ParentImage=cmd.exe (or wscript.exe), so the base search never selects it. attack_step 1 ('Office spawns powershell') is satisfied via a one-hop intermediary and fully evades. No stitching of grandparent (ParentImage lineage / process-tree join on ParentProcessGuid) is done.",
+          "fix_hint": "Do not require the office binary to be the immediate parent. Correlate on ParentProcessGuid to walk the ancestry, or add a second branch that catches powershell -enc whose grandparent is an Office app, or detect the Office->cmd/wscript/mshta spawn separately."
+        },
+        {
+          "category": "evasion",
+          "severity": "high",
+          "detail": "Image is matched by name only (*\\\\powershell.exe) and OriginalFileName is never checked. An attacker can Copy-Item the real powershell.exe to any name (e.g. C:\\Users\\Public\\updater.exe) from the macro and run it with -EncodedCommand; it executes identically but Image no longer ends in powershell.exe, so the base filter drops it. pwsh.exe (PowerShell 7), which also accepts -EncodedCommand, is likewise missed. Sysmon populates OriginalFileName='PowerShell.EXE' for all of these but the rule ignores it.",
+          "fix_hint": "Match on OriginalFileName IN (PowerShell.EXE, pwsh.dll) OR Image=\"*\\\\powershell.exe\" OR Image=\"*\\\\pwsh.exe\" instead of relying solely on the on-disk filename."
+        },
+        {
+          "category": "evasion",
+          "severity": "medium",
+          "detail": "The ParentImage allowlist is limited to WINWORD/EXCEL/OUTLOOK and omits other macro-capable Office apps that are standard maldoc delivery vectors: POWERPNT.EXE (PowerPoint), MSACCESS.EXE (Access), MSPUB.EXE (Publisher), and VISIO.EXE. A VBA macro in any of these spawning powershell -enc meets the detection intent but is not selected.",
+          "fix_hint": "Add the remaining Office parents (POWERPNT.EXE, MSACCESS.EXE, MSPUB.EXE, VISIO.EXE, and consider WORDPAD/ONENOTE) to the ParentImage alternation."
+        },
+        {
+          "category": "false_positive",
+          "severity": "low",
+          "detail": "hits_per_day is ~0.14 (one event in the 7-day window: WINWORD->powershell by CORP\\jdoe) and the stats output never surfaces the decoded base64 or the base64 length distribution, so an analyst cannot quickly distinguish a benign Office add-in/deployment script from a real maldoc. Low volume so not a daily-fire problem, but the single hit is un-triageable from the output as written.",
+          "fix_hint": "Carry the raw CommandLine, IntegrityLevel, and ideally a base64-decode of the -enc payload into the results to speed triage and reduce manual FP handling."
+        }
+      ],
+      "evasion_events": [
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\powershell.exe</Data><Data Name='OriginalFileName'>PowerShell.EXE</Data><Data Name='CommandLine'>powershell.exe -enc JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='IntegrityLevel'>Medium</Data><Data Name='ParentImage'>C:\\Windows\\System32\\cmd.exe</Data><Data Name='ParentCommandLine'>cmd.exe /c powershell -enc JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data></EventData></Event>",
+          "note": "Office->cmd->powershell intermediate-parent chain. Macro launched cmd.exe /c which spawned powershell -enc <b64>. The powershell event's ParentImage is cmd.exe, not WINWORD/EXCEL/OUTLOOK, so the base search drops it even though the regex on CommandLine would match. Grandparent lineage is not evaluated."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Users\\Public\\updater.exe</Data><Data Name='OriginalFileName'>PowerShell.EXE</Data><Data Name='CommandLine'>\"C:\\Users\\Public\\updater.exe\" -EncodedCommand JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='IntegrityLevel'>Medium</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n</Data></EventData></Event>",
+          "note": "Renamed-binary evasion. The macro copied powershell.exe to C:\\Users\\Public\\updater.exe and ran it with -EncodedCommand. OriginalFileName still reads PowerShell.EXE but Image does not end in powershell.exe, so Image=\"*\\\\powershell.exe\" fails and the event is never selected. Detection should key on OriginalFileName."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS02.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='OriginalFileName'>PowerShell.EXE</Data><Data Name='CommandLine'>powershell.exe -encodedcommand JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAA=</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='IntegrityLevel'>Medium</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE\" /n</Data></EventData></Event>",
+          "note": "Alternate Office parent. A PowerPoint (POWERPNT.EXE) VBA macro directly spawns powershell -encodedcommand <b64>. CommandLine matches the regex and Image matches, but POWERPNT.EXE is not in the WINWORD/EXCEL/OUTLOOK allowlist, so the event is excluded. Same applies to MSACCESS.EXE, MSPUB.EXE, VISIO.EXE."
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "draft": 6,
+      "findings": [
+        {
+          "category": "brittleness",
+          "severity": "high",
+          "detail": "The renamed-binary / pwsh coverage (OriginalFileName=\"PowerShell.EXE\" OR OriginalFileName=\"pwsh.dll\") rests entirely on the OriginalFileName field, which warnings explicitly flag as 'unverified', and the only provided raw Sysmon EventData block contains NO <Data Name='OriginalFileName'> element at all (only Image, CommandLine, User, ParentImage, ParentCommandLine). If OriginalFileName is not parsed/populated in this index, the base filter collapses to Image=\"*\\powershell.exe\" OR Image=\"*\\pwsh.exe\" and the copy-and-rename attack (Copy-Item powershell.exe to updater.exe, run with -enc) again fully evades. The prior fix is therefore illusory until OriginalFileName extraction is verified against real EventID 1 data on this host.",
+          "fix_hint": "Confirm OriginalFileName is extracted (| stats count by OriginalFileName over EventCode=1). If missing, fix the TA/field-alias or fall back to Description/Product/Hashes-based identity; do not rely on a single unverified field for the rename defense."
+        },
+        {
+          "category": "evasion",
+          "severity": "medium",
+          "detail": "The intermediary parent allowlist is a fixed, name-only set (cmd|wscript|cscript|mshta|rundll32|regsvr32). Office->LOLBin->powershell chains that use any other broker are not selected: pcalua.exe, forfiles.exe, wmic.exe, explorer.exe, conhost.exe, schtasks.exe, msbuild.exe, or a renamed copy of cmd.exe. Because the match() anchors on the literal basename, a one-hop broker outside this list satisfies attack_step 1 yet drops out at the 'where match(ParentLower,...)' stage.",
+          "fix_hint": "Either enumerate the full interpreter/LOLBin set or, better, stitch grandparent lineage via ParentProcessGuid join so any Office ancestor->powershell -enc is caught regardless of the single broker's name."
+        },
+        {
+          "category": "evasion",
+          "severity": "medium",
+          "detail": "The in-search exclusion 'where NOT (IntegrityLevel=\"High\" OR IntegrityLevel=\"System\")' is an attacker-satisfiable condition. A maldoc opened by a local-admin user, or a chain that follows a UAC bypass, runs powershell -enc at IntegrityLevel=High and is silently dropped, even though it exactly matches both attack_steps. The exclusion trades a realistic high-integrity maldoc for admin-script noise suppression.",
+          "fix_hint": "Do not blanket-exclude High integrity for the office_direct ParentType; only de-prioritize, or exclude only when the grandparent/user is a known admin-automation account."
+        },
+        {
+          "category": "false_positive",
+          "severity": "medium",
+          "detail": "The 'intermediary' branch never verifies that Office (or any maldoc source) is actually in the process lineage - it fires on ANY cmd/cscript/wscript/mshta/rundll32/regsvr32 that spawns powershell with an -enc-style flag at Medium integrity. Enterprise logon scripts, SCCM/GPO deployment, and admin tooling commonly run cscript/cmd -> powershell -EncodedCommand under a non-elevated token, which would alert as ParentType=intermediary with no Office involvement. Current volume is ~0.14/day so not yet daily, but the expanded parent list materially widens benign exposure.",
+          "fix_hint": "Require an Office ancestor on the intermediary branch (lineage join on ParentProcessGuid), or baseline-exclude known deployment accounts/hosts rather than treating all brokers as malicious."
+        }
+      ],
+      "evasion_events": [
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Users\\Public\\updater.exe</Data><Data Name='CommandLine'>\"C:\\Users\\Public\\updater.exe\" -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAApAA==</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='IntegrityLevel'>Medium</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n invoice.docm</Data></EventData></Event>",
+          "note": "Renamed real powershell.exe copied to updater.exe, launched directly by WINWORD with -enc. Image does not end in powershell.exe/pwsh.exe and this event carries NO OriginalFileName element (matching the provided raw sample), so the base filter drops it entirely despite satisfying both attack_steps."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS02.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='OriginalFileName'>PowerShell.EXE</Data><Data Name='CommandLine'>powershell.exe -EncodedCommand SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAApAA==</Data><Data Name='User'>CORP\\jdoe</Data><Data Name='IntegrityLevel'>Medium</Data><Data Name='ParentImage'>C:\\Windows\\System32\\pcalua.exe</Data><Data Name='ParentCommandLine'>pcalua.exe -a C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -c \"-enc ...\"</Data></EventData></Event>",
+          "note": "Office macro brokered through pcalua.exe (Program Compatibility Assistant) instead of cmd/wscript. ParentImage=pcalua.exe is not in the intermediary allowlist, so 'where match(ParentLower,...)' excludes it even though it is a one-hop Office->powershell -enc chain. Same bypass works via forfiles.exe, wmic.exe, explorer.exe, or schtasks.exe."
+        },
+        {
+          "sourcetype": "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational",
+          "raw": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385f-c22a-43e0-bf4c-06f5698ffbd9}'/><EventID>1</EventID><Computer>WS01.corp.local</Computer></System><EventData><Data Name='Image'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name='OriginalFileName'>PowerShell.EXE</Data><Data Name='CommandLine'>powershell.exe -EncodedCommand SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAApAA==</Data><Data Name='User'>CORP\\admin</Data><Data Name='IntegrityLevel'>High</Data><Data Name='ParentImage'>C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE</Data><Data Name='ParentCommandLine'>\"C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE\" budget.xlsm</Data></EventData></Event>",
+          "note": "Identical Office-direct maldoc chain but the doc was opened by an admin user, so powershell runs at IntegrityLevel=High. The 'where NOT (IntegrityLevel=High OR System)' clause removes the event before stats, fully suppressing a textbook attack_step match."
+        }
+      ]
+    }
+  ],
+  "failed_attempts": [],
+  "history": [
+    {
+      "ts": "2026-11-04T22:52:19Z",
+      "step": "match",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-04T22:52:31Z",
+      "step": "author",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.019601
+    },
+    {
+      "ts": "2026-11-04T22:52:31Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-04T22:52:35Z",
+      "step": "tune",
+      "model": "claude-sonnet-5-5",
+      "cost_usd": 0.0162843
+    },
+    {
+      "ts": "2026-11-04T22:52:35Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-04T22:52:41Z",
+      "step": "tune",
+      "model": "claude-sonnet-5-5",
+      "cost_usd": 0.0180203
+    },
+    {
+      "ts": "2026-11-04T22:52:42Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-04T22:54:03Z",
+      "step": "review",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.19404
+    },
+    {
+      "ts": "2026-11-04T22:54:48Z",
+      "step": "refine",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.14284399999999997
+    },
+    {
+      "ts": "2026-11-04T22:54:48Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-04T22:56:39Z",
+      "step": "review",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.247529
+    },
+    {
+      "ts": "2026-11-04T22:59:15Z",
+      "step": "refine",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.37824800000000003
+    },
+    {
+      "ts": "2026-11-04T22:59:15Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-04T23:01:49Z",
+      "step": "tune",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.339794
+    },
+    {
+      "ts": "2026-11-04T23:01:49Z",
+      "step": "test",
+      "model": null,
+      "cost_usd": 0.0
+    },
+    {
+      "ts": "2026-11-04T23:04:02Z",
+      "step": "review",
+      "model": "claude-opus-4-8",
+      "cost_usd": 0.278393
+    }
+  ],
+  "outputs": []
+}

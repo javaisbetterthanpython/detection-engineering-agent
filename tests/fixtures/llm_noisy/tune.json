@@ -1,0 +1,20 @@
+[
+  {
+    "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 (ParentImage=\"*\\\\WINWORD.EXE\" OR ParentImage=\"*\\\\EXCEL.EXE\" OR ParentImage=\"*\\\\OUTLOOK.EXE\") Image=\"*\\\\powershell.exe\" | stats count min(_time) as firstTime max(_time) as lastTime by Computer User ParentImage Image CommandLine"
+  },
+  {
+    "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 (ParentImage=\"*\\\\WINWORD.EXE\" OR ParentImage=\"*\\\\EXCEL.EXE\" OR ParentImage=\"*\\\\OUTLOOK.EXE\") Image=\"*\\\\powershell.exe\" (CommandLine=\"* -enc*\" OR CommandLine=\"*-EncodedCommand*\") | stats count min(_time) as firstTime max(_time) as lastTime by Computer User ParentImage Image CommandLine"
+  },
+  {
+    "spl": "index=wineventlog sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=1 (ParentImage=\"*\\\\WINWORD.EXE\" OR ParentImage=\"*\\\\EXCEL.EXE\" OR ParentImage=\"*\\\\OUTLOOK.EXE\") Image=\"*\\\\powershell.exe\" (CommandLine=\"* -enc*\" OR CommandLine=\"*-EncodedCommand*\") NOT User=\"NT AUTHORITY\\\\SYSTEM\" | stats count min(_time) as firstTime max(_time) as lastTime by Computer User ParentImage Image CommandLine"
+  },
+  {
+    "spl": "index=wineventlog sourcetype=\"WinEventLog:Security\" EventCode=4688 (Creator_Process_Name=\"*\\\\WINWORD.EXE\" OR Creator_Process_Name=\"*\\\\EXCEL.EXE\" OR Creator_Process_Name=\"*\\\\OUTLOOK.EXE\") New_Process_Name=\"*\\\\powershell.exe\" | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName Account_Name Creator_Process_Name New_Process_Name Process_Command_Line"
+  },
+  {
+    "spl": "index=wineventlog sourcetype=\"WinEventLog:Security\" EventCode=4688 (Creator_Process_Name=\"*\\\\WINWORD.EXE\" OR Creator_Process_Name=\"*\\\\EXCEL.EXE\" OR Creator_Process_Name=\"*\\\\OUTLOOK.EXE\") New_Process_Name=\"*\\\\powershell.exe\" (Process_Command_Line=\"* -enc*\" OR Process_Command_Line=\"*-EncodedCommand*\") | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName Account_Name Creator_Process_Name New_Process_Name Process_Command_Line"
+  },
+  {
+    "spl": "index=wineventlog sourcetype=\"WinEventLog:Security\" EventCode=4688 (Creator_Process_Name=\"*\\\\WINWORD.EXE\" OR Creator_Process_Name=\"*\\\\EXCEL.EXE\" OR Creator_Process_Name=\"*\\\\OUTLOOK.EXE\") New_Process_Name=\"*\\\\powershell.exe\" (Process_Command_Line=\"* -enc*\" OR Process_Command_Line=\"*-EncodedCommand*\") NOT Account_Name=\"svc_backup\" | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName Account_Name Creator_Process_Name New_Process_Name Process_Command_Line"
+  }
+]

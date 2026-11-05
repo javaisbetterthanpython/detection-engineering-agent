@@ -1,0 +1,24 @@
+[project]
+name = "detection-engineering-agent"
+version = "0.1.0"
+description = "Detection engineering agent: detection idea YAML -> tuned, reviewed Splunk detection as code"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "pydantic>=2.7,<3",
+    "pyyaml>=6,<7",
+    "transitions==0.9.3",
+    "splunk-sdk==3.0.1",
+    "trafilatura==2.3.1",
+    "pypdf>=5,<6",
+]
+
+[project.scripts]
+dea = "detection_engineering_agent.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8,<9"]
+
+[build-system]
+requires = ["uv_build>=0.13.4,<0.14.0"]
+build-backend = "uv_build"

@@ -1,0 +1,3 @@
+name: office_app_spawns_encoded_powershell_filter
+definition: search *
+description: Update this macro to limit the output results to filter out false positives.

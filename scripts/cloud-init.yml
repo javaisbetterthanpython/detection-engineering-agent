@@ -1,0 +1,83 @@
+#cloud-config
+# Disposable Splunk Enterprise test server (Ubuntu 24.04, DigitalOcean).
+# Rendered by scripts/splunk-droplet.sh: __SPLUNK_PW__ is replaced in a temp copy; this file holds no secret.
+package_update: true
+packages: [wget, curl]
+write_files:
+  - path: /root/dea/user-seed.conf
+    permissions: '0600'
+    content: |
+      [user_info]
+      USERNAME = admin
+      PASSWORD = __SPLUNK_PW__
+  - path: /root/dea/web.conf
+    content: |
+      [settings]
+      enableSplunkWebSSL = true
+  - path: /root/dea/props.conf
+    content: |
+      [XmlWinEventLog:Microsoft-Windows-Sysmon/Operational]
+      SHOULD_LINEMERGE = false
+      LINE_BREAKER = ((?<=</Event>)\s*)
+      TIME_PREFIX = SystemTime='
+      TIME_FORMAT = %Y-%m-%dT%H:%M:%S
+      MAX_TIMESTAMP_LOOKAHEAD = 32
+      TZ = UTC
+      KV_MODE = none
+      REPORT-dea_sysmon = dea_sysmon_eventcode, dea_sysmon_computer, dea_sysmon_data
+
+      [WinEventLog:Security]
+      SHOULD_LINEMERGE = true
+      BREAK_ONLY_BEFORE = ^\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M
+      TIME_FORMAT = %m/%d/%Y %I:%M:%S %p
+      MAX_TIMESTAMP_LOOKAHEAD = 30
+      TZ = UTC
+      REPORT-dea_wel = dea_wel_message
+  - path: /root/dea/transforms.conf
+    content: |
+      [dea_sysmon_eventcode]
+      REGEX = <EventID>(\d+)</EventID>
+      FORMAT = EventCode::$1
+
+      [dea_sysmon_computer]
+      REGEX = <Computer>([^<]+)</Computer>
+      FORMAT = Computer::$1
+
+      [dea_sysmon_data]
+      REGEX = <Data Name='([^']+)'>([^<]*)</Data>
+      FORMAT = $1::$2
+      REPEAT_MATCH = true
+
+      [dea_wel_message]
+      REGEX = (?m)^\t([A-Za-z][A-Za-z ]*?):\t+([^\r\n]+)$
+      FORMAT = $1::$2
+      REPEAT_MATCH = true
+  - path: /root/dea/install.sh
+    permissions: '0755'
+    content: |
+      #!/usr/bin/env bash
+      # Logged to /var/log/cloud-init-output.log. Verified 2026-11-05: current release and sha512 sidecar.
+      set -euo pipefail
+      VER=10.6.1.1
+      BUILD=b2ae2962645c
+      SHA=f3f67f699fcd893ffd280b602a47215f5e7eb9b481cb242b08705a4db8ada489febb3fa49cb90f9bd1397603d9207ea5ac9bf59eec62f99d030c3f2ff738eb89
+      DEB="splunk-$VER-$BUILD-linux-amd64.deb"
+      cd /root
+      fallocate -l 2G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
+      echo '/swapfile none swap sw 0 0' >> /etc/fstab
+      wget -q -O "$DEB" "https://download.splunk.com/products/splunk/releases/$VER/linux/$DEB"
+      echo "$SHA  $DEB" | sha512sum -c -
+      dpkg -i "$DEB"
+      rm -f "$DEB"
+      install -m 600 /root/dea/user-seed.conf /opt/splunk/etc/system/local/user-seed.conf
+      install -m 644 /root/dea/web.conf /root/dea/props.conf /root/dea/transforms.conf /opt/splunk/etc/system/local/
+      # Splunk 10 refuses to start as root without --run-as-root; run it as a service user instead.
+      id splunk >/dev/null 2>&1 || useradd -r -d /opt/splunk -s /bin/bash splunk
+      chown -R splunk:splunk /opt/splunk
+      # boot-start before the first start: a single start (no stop/start window for the laptop-side readiness poll)
+      /opt/splunk/bin/splunk enable boot-start -systemd-managed 1 -user splunk -group splunk --accept-license --answer-yes --no-prompt
+      systemctl start Splunkd
+      shred -u /root/dea/user-seed.conf
+      touch /root/splunk-ready
+runcmd:
+  - bash /root/dea/install.sh
