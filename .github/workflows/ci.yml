@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.3.3
       - run: uv python install 3.13
       - run: uv sync --group dev
       - run: uv run pytest -q
@@ -24,7 +24,7 @@ jobs:
       SPLUNK_TOKEN: ${{ secrets.SPLUNK_TOKEN }}
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.3.3
       - run: uv python install 3.13
       - run: uv sync --group dev
       # runs only when the SPLUNK_TOKEN secret is set and detections/*.yml exists (it does: run 5's rendering is committed); set repository variable DEA_ES=1 for Enterprise Security
